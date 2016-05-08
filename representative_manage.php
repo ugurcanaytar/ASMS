@@ -57,49 +57,84 @@ echo "
 	</div>
 		
 		<div class='col_12 column'>
-			<form id='reg_form'>
+		<form id='reg_form'>
 			<fieldset>
 			<legend><i class='icon-plus'></i> Add New Car</legend>
-			<form action= ".$_SERVER['PHP_SELF']." method='get'>
+			<form class='horizontal' method='get' action=".$_SERVER['PHP_SELF'].">
+			<br><center>
+				<select id = 'state_select' name='owner_select' required= 'required'/>
+					<option>Select Owner ID</option>
+			";
+
+				$query = "SELECT DISTINCT owner_id FROM car ORDER BY owner_id asc";
+				$result = mysql_query($query, $conn) or die(mysql_error());
+				while ($row = mysql_fetch_array($result)){
+					$owner = $row['owner_id'];
+					echo"<option value=".$owner.">".$owner."</option>";
+				}
+
+				echo "
+				</select>  <br><br>
+
+				<select id = 'state_select' name='model_select' required= 'required'/>
+					<option>Select Car Model</option>
+				";
+
+				$query = "SELECT DISTINCT model FROM car ORDER BY model asc";
+				$result = mysql_query($query, $conn) or die(mysql_error());
+				while ($row = mysql_fetch_array($result)){
+					$model = $row['model'];
+					echo"<option value=".$model.">".$model."</option>";
+				}
+
+				echo "
+				</select>  <br><br>
+
+
+
+				<select id = 'state_select' name='volume_select' required= 'required'/>
+					<option>Select Engine Volume</option>
+
+				";
+
+				$query = "SELECT * FROM car ORDER BY engine_volume asc";
+				$result = mysql_query($query, $conn) or die(mysql_error());
+				while ($row = mysql_fetch_array($result)){
+					$eVolume = $row['engine_volume'];
+					echo"<option value=".$eVolume.">".$eVolume."</option>";
+				}
+
+				echo "
+				</select> <br><br>
 
 				<p>
-					<label for='owner_id'>Owner ID: </label>
-					<input name='owner_id' type='text' required= 'required'/>
-				</p>
-				<p>
-					<label for='release_date'>Release Date: </label>
+					<label for='release_date'>Release Date:</label>
 					<input name='release_date' type='date' required= 'required'/>
+					<br><br>
 				</p>
-				<p>
-					<label for='model'>Car Model: </label>
-					<input name='model' type='text' required= 'required'/>
-				</p>
-				<p>
-					<label for='engine_volume'>Engine Volume: </label>
-					<input name='engine_volume' type='text' required= 'required'/>
-				</p>
-				<p>
-					<button class='green' name='submit' type='submit'><i class='icon-check'></i> Apply</button>
-				</p>
-				</form>
-			
-	";
-
-	//var_dump($_GET);
-	// isset($_POST['car_id']) && isset($_POST['owner_id']) && isset($_POST['release_date']) && isset($_POST['model']) && isset($_POST['engine_volume'])
-	if(isset($_GET['owner_id']) && isset($_GET['release_date']) && isset($_GET['model']) && isset($_GET['engine_volume'])){
+				<button class = 'green' type='submit'><i class = 'icon-plus'></i> Add</button>
+			</form></center>
+			</form>
+			";
 
 
-		$owner_id = $_GET["owner_id"];
+	if(isset($_GET['volume_select']) && isset($_GET['release_date']) && isset($_GET['model_select']) && isset($_GET['owner_select'])){
+
+
+		$owner_id = $_GET["owner_select"];
 		$release_date = $_GET["release_date"];
-		$model = $_GET["model"];
-		$engine_volume = $_GET["engine_volume"];
+		$model = $_GET["model_select"];
+		$engine_volume = $_GET["volume_select"];
 		$query = "INSERT INTO Car (car_id, model, release_date, engine_volume, owner_id) VALUES ('', '$model', '$release_date', '$engine_volume', '$owner_id')";
 		$result = mysql_query($query, $conn); //or die(mysql_error());
 		
 		if($result){
-			echo "<div class='notice warning'><i class='icon-wrench'></i> New Car Added!
-			<a href='#close' class='icon-remove'></a></div>";
+			echo "<div class='notice warning'><i class='icon-wrench'></i> New Car Added! <font color = 'red'><strong> You will redirect in a 3 seconds... <strong></font> <a href='#close' class='icon-remove'></a></div>";
+			header( "refresh:3;url=representative_manage.php" );
+		} else {
+
+			echo "<div class='notice error'><i class='icon-wrench'></i> Cannot Add New Car! Please Select Proper Values! | <font color = 'red'><strong> You will redirect in a 3 seconds... <strong></font> <a href='#close' class='icon-remove'></a></div>";
+				header( "refresh:3;url=representative_manage.php" );
 		}
 	}
 echo "	

@@ -61,36 +61,79 @@ echo "
 			<table class='sortable' cellspacing='0' cellpadding='0'>
 			<thead><tr>
 				<th>Spare Part Name</th>
-				<th>Captain ID</th>
-				<th>Captain Name</th>
 				<th>Cost</th>
+				<th>Service ID </th>
 			</tr></thead>
 			<tbody><tr>";
 
 
 			$curr = $_SESSION['distributor_id'];
-			$query = "SELECT * FROM sparepart NATURAL JOIN employee WHERE distributor_id = ".$curr."";
+			$query = "SELECT * FROM sparepart NATURAL JOIN operations NATURAL JOIN service WHERE distributor_id = ".$curr." AND demand = 1 ";
 			$result = mysql_query($query, $conn) or die( mysql_error());
 				while($row = mysql_fetch_array($result)){
 					echo "<tr>";
 					$part_name = $row['part_type'];
-					$captain_name = $row['employee_name'];
-					$captain_id = $row['employee_id'];
-					//$captain_email = $row['cap_email'];
 					$cost = $row['cost'];
+					$service = $row['service_id'];
 					echo"<td>".$part_name."</td>";
-					echo"<td>".$captain_id."</td>";
-					echo"<td>".$captain_name."</td>";
 
 					echo"<td>".$cost."</td>";
+					echo"<td>".$service."</td>";
 					echo"</tr>";
 				}
 
 			echo "
-			</tr></tbody>
+			</tbody>
 			</table>
+			</center>
+			<div>
 			</div>
-			</ul>
+			<div>
+			</ul>";
+
+			echo"
+			<form class='horizontal' method='get' action=".$_SERVER['PHP_SELF'].">
+			<center>
+
+				<select id = 'state_select' name='service_select'>
+					<option>Select Service ID</option>
+			";
+				$queryT = "SELECT DISTINCT service_id FROM sparepart NATURAL JOIN operations NATURAL JOIN service WHERE distributor_id = ".$curr." AND demand = 1 ";
+				$result2 = mysql_query($queryT, $conn) or die( mysql_error());
+				while($row = mysql_fetch_array($result2)){
+					$srv_sel = $row['service_id'];
+					echo"<option value =".$srv_sel.">".$srv_sel."</option>";
+				}
+
+				echo "
+				</select> <br><br>
+
+				<button class = 'green' type='submit'><i class = 'icon-wrench'></i> Delete</button>
+				</center>
+				</form>
+				</div>
+				";
+		$curr = $_SESSION['distributor_id'];
+		
+
+		if(isset($_GET['service_select'])){
+			$serv = $_GET['service_select'];
+			$sql1 = "UPDATE service SET demand = 0 WHERE  service_id = $serv";
+			$result1 = mysql_query($sql1, $conn) or die(mysql_error());
+			$sql2 = "UPDATE service SET available = 1 WHERE  service_id = $serv";
+			$result2 = mysql_query($sql2, $conn) or die(mysql_error());
+
+			if($result1 && $result2){
+
+				echo "<div class='notice success'><i class='icon-wrench'></i> SparePart Demanded! | <strong> You will redirect in a 3 seconds... </strong>
+				<a href='#close' class='icon-remove'></a></div>";
+				header( "refresh:3;url=distributor_main.php" );
+			} else {
+				echo "<div class='notice error'><i class='icon-wrench'></i> SparePart Mismatch! Please Select Proper Value. | <font color = 'red'><strong> You will redirect in a 3 seconds... <strong></font> <a href='#close' class='icon-remove'></a></div>";
+				header( "refresh:3;url=distributor_main.php" );
+			}
+		}
+		echo "
 		</div>
 		<div class='clearfix'></div>
 		<footer>

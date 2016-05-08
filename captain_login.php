@@ -40,17 +40,6 @@
 				</p>
 				</fieldset>
 			</form>
-		</div>
-	</div>
-
-
-		<div class='clearfix'></div>
-		<footer>
-			<p>Copyright @ASMS_Group2; CS353 - Spring 2016, Auto Service Management System, All Rights Reserved.</p>
-		</footer>
-</div> <!-- End Grid -->
-</body>
-</html>
 												
 <?php
 
@@ -78,15 +67,25 @@ if(isset($_POST['employee_id'])) {
 	
 
 	if(mysql_num_rows($res) == 1) {
-		header('Location: captain_main.php');
+		echo "<div class='notice success'><i class='icon-wrench'></i> Welcome to the system! | <strong> You will direct to the system in a 3 seconds... </strong>
+				<a href='#close' class='icon-remove'></a></div>";
+				header( "refresh:3;url=captain_main.php" );
 	}
 	else{
-		echo '
-		<div>
-			<center><p class="warning">The user with the given Captain ID and password does NOT exist in the system!</p></center>
-		</div>
-		';
+		echo "<div class='notice error'><i class='icon-wrench'></i> Your ID or Password is incorrect! Please re-type your information. | <font color = 'red'><strong> You will redirect in a 3 seconds... <strong></font> <a href='#close' class='icon-remove'></a></div>";
+				header( "refresh:3;url=captain_login.php" );
 	}
 
 }
 ?>
+
+</div>
+</div>
+
+		<div class='clearfix'></div>
+		<footer>
+			<p>Copyright @ASMS_Group2; CS353 - Spring 2016, Auto Service Management System, All Rights Reserved.</p>
+		</footer>
+</div> <!-- End Grid -->
+</body>
+</html>

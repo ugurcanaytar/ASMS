@@ -62,20 +62,22 @@ echo "
 			<ul id='listings'>
 			<table class='sortable' cellspacing='0' cellpadding='0'>
 			<thead><tr>
-				<th>Appointment Date</th>
 				<th>Total Cost</th>
+				<th>Service ID</th>
 			</tr></thead>
 			<tbody>
 ";
 				$curr = $_SESSION['customer_id'];
-				$query = "SELECT start_date, SUM(cost) as sum FROM operations NATURAL JOIN sparepart  NATURAL JOIN service WHERE customer_id= ".$curr." GROUP BY start_date  ";
+				$query = "SELECT service_id, SUM(cost) as sum FROM sparepart NATURAL JOIN service WHERE customer_id= ".$curr."  AND done = 1 GROUP BY start_date, service_id  ";
 				$result = mysql_query($query, $conn) or die( mysql_error());
 				while($row = mysql_fetch_array($result)){
 					echo "<tr>";
-					$start = $row['start_date'];
 					$sum = $row['sum'];
-					echo"<td>".$start."</td>";
+					// $quantity = $row['quantity'];
+					// $total = $sum * $quantity;
+					$service_id = $row['service_id'];
 					echo"<td>".$sum."</td>";
+					echo"<td>".$service_id."</td>";
 					echo "</tr>";
 				}
 echo"

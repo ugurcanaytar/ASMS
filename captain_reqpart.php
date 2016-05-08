@@ -12,7 +12,7 @@ mysql_select_db($db,$conn);
 if (!isset($_SESSION['employee_id'])) {
    header('Location: captain_login.php');
 }
-
+ob_start(); 
 echo "
 <!DOCTYPE html>
 <html>
@@ -63,19 +63,24 @@ echo "
 			<table class='sortable' cellspacing='0' cellpadding='0'>
 			<thead><tr>
 				<th>Part Type</th>
-			</tr></thead>
+				<th>Quantity</th>
+				<th>Service ID</th>
+			</tr>
 			<tbody>";
 
-
-			$query = "SELECT DISTINCT part_type FROM sparepart ";
+			$dept = $_SESSION['department_id'];
+			$query = "SELECT * FROM operations NATURAL JOIN service WHERE available = 0 AND demand = 0 AND department_id = ".$dept."";
 			$result = mysql_query($query, $conn) or die( mysql_error());
 				while($row = mysql_fetch_array($result)){
 					echo "<tr>";
 					$part_type = $row['part_type'];
+					$quantity = $row['quantity'];
+					$service = $row['service_id'];
 					echo"<td>".$part_type."</td>";
+					echo"<td>".$quantity."</td>";
+					echo"<td>".$service."</td>";
 					echo "</tr>";
 				}
-			
 echo"
 			
 			</tbody>
@@ -88,39 +93,95 @@ echo"
 	";
 
 echo"
-			<form action= ".$_SERVER['PHP_SELF']." method='get'>
-				<center>
+			<form class='horizontal' method='get' action=".$_SERVER['PHP_SELF'].">
+			<br><center>
+
+				
+				
+			";
+
+				echo "
+
 				<p>
-					<label for='part_type'>Part Type: </label>
-					<input name='part_type' type='text' required= 'required'/>
+					<input name='part_type' type='text' placeholder='Enter Part Type...' required= 'required'/>
 				</p>
-				<p>
-					<label for='distributor_id'>Distributor ID: </label>
-					<input name='distributor_id' type='text' required= 'required'/>
-				</p>
-				<p>
-					<label for='ops_id'>Operation ID: </label>
-					<input name='ops_id' type='text' required= 'required'/>
-				</p>
-				<p>
-					<button class='green' name='submit' type='submit'><i class='icon-check'></i> Update</button>
-				</p>
-				</center>
-			</form>
-			</div>
+				<br>
+
+				<select id = 'state_select' name='distributor_select' required= 'required'/>
+					<option>Select Distributor ID</option>
+				";
+
+				$query = "SELECT DISTINCT distributor_id FROM distributor ORDER BY distributor_id asc";
+				$result = mysql_query($query, $conn) or die(mysql_error());
+				while ($row = mysql_fetch_array($result)){
+					$dist = $row['distributor_id'];
+					echo"<option value=".$dist.">".$dist."</option>";
+				}
+
+				echo "
+				</select>  <br><br>
+
+
+
+				<select id = 'state_select' name='operation_select' required= 'required'/>
+					<option>Select Operation ID</option>
 
 				";
-		if(isset($_GET['part_type']) && isset($_GET['distributor_id']) && isset($_GET['ops_id'])){
+
+				$query = "SELECT DISTINCT ops_id FROM operations ORDER BY ops_id asc";
+				$result = mysql_query($query, $conn) or die(mysql_error());
+				while ($row = mysql_fetch_array($result)){
+					$opS = $row['ops_id'];
+					echo"<option value=".$opS.">".$opS."</option>";
+				}
+				$oper = $_GET['operation_select'];	
+
+				echo "
+				</select> <br><br>
+
+				<select id = 'state_select' name='service_select' required= 'required'/>
+					<option>Select Service ID</option>
+
+				";
+
+
+				$query = "SELECT * FROM operations NATURAL JOIN service WHERE available = 0 AND demand = 0 AND department_id = ".$dept." ORDER BY service_id asc";
+				$result = mysql_query($query, $conn) or die(mysql_error());
+				while ($row = mysql_fetch_array($result)){
+					$sRv = $row['service_id'];
+					echo"<option value=".$sRv.">".$sRv."</option>";
+				}
+
+				echo "
+
+				</select> <br><br>
+
+				
+				<button class = 'green' type='submit'><i class = 'icon-check'></i> Update</button>
+				</form></center>
+			</form>
+			";
+
+
+	
+		// error_reporting(E_ERROR | E_PARSE);
+		if(isset($_GET['part_type']) && isset($_GET['operation_select']) && isset($_GET['distributor_select']) && isset($_GET['service_select'])){
+			$query = "SELECT * FROM operations NATURAL JOIN service WHERE available = 0 AND demand = 0 ";
 			$part_type = $_GET['part_type'];
-			$distributor_id = $_GET["distributor_id"];
-			$ops_id = $_GET["ops_id"];
+			$distributor_id = $_GET["distributor_select"];
+			$ops_id = $_GET["operation_select"];
+			$service_id = $_GET['service_select'];
 
 			$query2 = "SELECT * FROM sparepart WHERE part_type = '$part_type'";
 			$result2 = mysql_query($query2, $conn) or die( mysql_error());
 			$row2 = mysql_fetch_array($result2);
 			$cost = $row2['cost'];
 			
-			$department_id = $_SESSION['department_id'];
+			$query3 = "SELECT DISTINCT department_id FROM sparepart WHERE part_type = '$part_type'";
+			$result3 = mysql_query($query3, $conn) or die( mysql_error());
+			$row3 = mysql_fetch_array($result3);
+			$department = $row3['department_id'];
+
 			$capt_id = $_SESSION['employee_id'];
 			$check = 0;
 
@@ -132,15 +193,31 @@ echo"
 			}
 
 			if($check){
-					$query = "INSERT INTO sparepart (part_id, part_type, distributor_id, cost, ops_id, employee_id, department_id) VALUES ('', '$part_type', '$distributor_id', '$cost', '$ops_id', '$capt_id', '$department_id')";
-					$result = mysql_query($query, $conn) or die(mysql_error());
-					if($result){
-						echo "<div class='notice success'><i class='icon-wrench'></i> Spare Part Requested!
-				<a href='#close' class='icon-remove'></a></div>";
-			}
+				$queryQuantity = "SELECT DISTINCT quantity FROM operations WHERE department_id = ".$dept." AND ops_id = ".$ops_id."";
+				$resultQ = mysql_query($queryQuantity, $conn) or die(mysql_error());
+				$row = mysql_fetch_array($resultQ);
+				$count = $row['quantity'];
+				//echo var_dump(mysql_num_rows($resultQ));
+				$nrCount = 0;
+				while($nrCount < $count){
+					$query3 = "INSERT INTO sparepart (part_id, part_type, distributor_id, cost, ops_id, employee_id, department_id, service_id) VALUES ('', '$part_type', '$distributor_id', '$cost', '$ops_id', '$capt_id', '$department', $service_id)";
+					$result = mysql_query($query3, $conn) or die(mysql_error());
+
+					$sql1 = "UPDATE service SET demand = 1 WHERE ops_id = '$ops_id' AND service_id = $service_id";
+					$result1 = mysql_query($sql1, $conn) or die(mysql_error());
+					
+					$nrCount = $nrCount +1;
+					if($result && $nrCount == $count){
+						echo "<div class='notice success'><i class='icon-wrench'></i> Spare Part Requested! | <strong> You will redirect in a 3 seconds... </strong><a href='#close' class='icon-remove'></a></div>";
+						header( "refresh:3;url=captain_reqpart.php" );
+					}
+
+				}
+					
 			} else{
-				echo "<div class='notice error'><i class='icon-wrench'></i> Please Write Proper Spare Part!
-				<a href='#close' class='icon-remove'></a></div>";
+						echo "<div class='notice error'><i class='icon-wrench'></i> Please Write Proper Spare Part! | <strong> You will redirect in a 3 seconds... </strong>
+						<a href='#close' class='icon-remove'></a></div>";
+						header( "refresh:3;url=captain_reqpart.php" );
 			}
 			
 
@@ -148,6 +225,7 @@ echo"
 		}
 
 echo "
+		</div>
 		</div>
 		</div>
 		<div>

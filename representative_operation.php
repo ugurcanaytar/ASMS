@@ -58,65 +58,122 @@ echo "
 	</div>
 		
 		<div class='col_12 column'>
-			<form id='reg_form'>
+		<form id='reg_form'>
 			<fieldset>
 			<legend><i class='icon-plus'></i> Add New Operation</legend>
-			<form action= ".$_SERVER['PHP_SELF']." method='get'>
+			<form class='horizontal' method='get' action='representative_main.php'>
+			<br><center>
+				<select id = 'state_select' name='car_select'>
+					<option>Select Car ID</option>
+			";
 
-				<p>
-					<label for='car_id'>Car ID: </label>
-					<input name='car_id' type='text' required= 'required'/>
-				</p>
-				<p>
-					<label for='department_id'>Department ID: </label>
-					<input name='department_id' type='text' required= 'required'/>
-				</p>
-				<p>
-					<label for='customer_id'>Customer ID: </label>
-					<input name='customer_id' type='text' required= 'required'/>
-				</p>
-				<p>
-					<label for='ops_id'>Operation ID: </label>
-					<input name='ops_id' type='text' required= 'required'/>
-				</p>
-				<p>
-					<label for='start_date'>Start Date: </label>
-					<input name='start_date' type='date' required= 'required'/>
-				</p>
-				<p>
-					<label for='end_date'>End Date: </label>
-					<input name='end_date' type='date' required= 'required'/>
-				</p>
-				<p>
-					<label for='description'>Description: </label>
-					<input name='description' type='text' required= 'required'/>
-				</p>
-				<p>
-					<button class='green' name='submit' type='submit'><i class='icon-check'></i> Apply</button>
-				</p>
-				</form>
+				$query = "SELECT DISTINCT car_id FROM car ORDER BY car_id asc";
+				$result = mysql_query($query, $conn) or die(mysql_error());
+				while ($row = mysql_fetch_array($result)){
+					$car = $row['car_id'];
+					echo"<option value=".$car.">".$car."</option>";
+				}
+
+
+				echo "
+				</select>  <br><br>
+
+				<select id = 'state_select' name='department_select'>
+					<option>Select Department ID</option>
+				";
+
+
+				$query = "SELECT DISTINCT department_id FROM operations ORDER BY department_id asc";
+				$result = mysql_query($query, $conn) or die(mysql_error());
+				while ($row = mysql_fetch_array($result)){
+					$dept = $row['department_id'];
+					echo"<option value=".$dept.">".$dept."</option>";
+				}
+
+
+				echo "
+				</select>  <br><br>
+
+
+
+				<select id = 'state_select' name='customer_select'>
+					<option>Select Customer ID</option>
+
+				";
+
+				$query = "SELECT DISTINCT owner_id FROM car ORDER BY owner_id asc";
+				$result = mysql_query($query, $conn) or die(mysql_error());
+				while ($row = mysql_fetch_array($result)){
+					$owner = $row['owner_id'];
+					echo"<option value=".$owner.">".$owner."</option>";
+				}
+
+				echo "
+				</select>  <br><br>
+
+
+
+				<select id = 'state_select' name='operation_select'>
+					<option>Select Operation ID</option>
+
+				";
+
+				$query = "SELECT DISTINCT ops_id FROM operations ORDER BY ops_id asc";
+				$result = mysql_query($query, $conn) or die(mysql_error());
+				while ($row = mysql_fetch_array($result)){
+					$ops = $row['ops_id'];
+					echo"<option value=".$ops.">".$ops."</option>";
+				}
+
 			
-	";
-	
-	if(isset($_GET['car_id']) && isset($_GET['department_id']) && isset($_GET['customer_id']) && isset($_GET['ops_id']) && isset($_GET['start_date']) && isset($_GET['end_date']) && isset($_GET['description'])){
-		$car_id = $_GET['car_id'];
-		$department_id = $_GET['department_id'];
-		$customer_id = $_GET['customer_id'];
-		$ops_id = $_GET['ops_id'];
-		$start_date = $_GET['start_date'];
-		$end_date = $_GET['end_date'];
-		$description = $_GET['description'];
 
-		$queryOne = "INSERT INTO Operations(ops_id, department_id, description, start_date, end_date) VALUES ('$ops_id','$department_id','$description',
-					'$start_date','$end_date')";
-		$queryTwo = "INSERT INTO Service (service_id, car_id, ops_id, department_id, customer_id) VALUES ('','$car_id','$ops_id','$department_id',
-					'$customer_id')"; 
-		$resultOne = mysql_query($queryOne, $conn) or die(mysql_error());
-		$resultTwo  = mysql_query($queryTwo, $conn) or die(mysql_error());
-		if($resultOne && $resultTwo){
-			echo "<div class='notice warning'><i class='icon-wrench'></i> New Operation Added!
-			<a href='#close' class='icon-remove'></a></div>";
-		}
+				echo "
+				</select> <br><br>
+
+				<p>
+					<label for='start_date'>Start Date:</label>
+					<input name='start_date' type='date' required= 'required'/>
+					<br><br>
+				</p>
+
+
+				<button class = 'green' type='submit'><i class = 'icon-plus'></i> Add</button>
+			</form></center>
+			</form>
+			";
+	
+	error_reporting(E_ERROR | E_PARSE);
+	$curr = $_SESSION['employee_id'];
+	if(isset($_GET['car_select']) && isset($_GET['department_select']) && isset($_GET['customer_select']) && isset($_GET['operation_select']) && 
+		isset($_GET['start_date'])){
+
+
+		$car_id = $_GET['car_select'];
+		$department_id = $_GET['department_select'];
+		$customer_id = $_GET['customer_select'];
+		$ops_id = $_GET['operation_select'];
+		$start_date = $_GET['start_date'];
+
+
+		$errorQuery = "SELECT * FROM car WHERE owner_id = ".$customer_id." AND car_id = ".$car_id." ";
+		$errorQueryN = "SELECT * FROM operations WHERE ops_id = ".$ops_id." AND department_id = ".$department_id." ";
+
+
+			$errResult = mysql_query($errorQuery, $conn);
+			$errResultN = mysql_query($errorQueryN, $conn);
+			//var_dump(mysql_num_rows($errResultN));
+			//var_dump(mysql_num_rows($errResult));
+			if(mysql_num_rows($errResult) && mysql_num_rows($errResultN)){
+				$queryTwo = "INSERT INTO Service (service_id, car_id, ops_id, department_id, customer_id, start_date) VALUES ('','$car_id','$ops_id','$department_id','$customer_id', '$start_date')"; 
+
+				$result  = mysql_query($queryTwo, $conn);
+				echo "<div class='notice success'><i class='icon-wrench'></i> Operation Added | <strong> You will redirect in a 3 seconds... </strong>
+				<a href='#close' class='icon-remove'></a></div>";
+				header( "refresh:3;url=representative_operation.php" );
+			} else {
+				echo "<div class='notice error'><i class='icon-wrench'></i> Mismatch! Please Select Proper Value. | <font color = 'red'><strong> You will redirect in a 3 seconds... <strong></font> <a href='#close' class='icon-remove'></a></div>";
+				header( "refresh:3;url=representative_operation.php" );
+			}
 	}
 echo "	
 		</fieldset>

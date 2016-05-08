@@ -83,12 +83,12 @@ echo "
 					echo"</tr>";
 				}
 echo"
+
 			</tbody></center>
 			</table>
 			</div>
 			</ul>
 		</div>
-
 		
 		<div class='clearfix'></div>
 		<footer>

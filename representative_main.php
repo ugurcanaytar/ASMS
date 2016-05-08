@@ -71,7 +71,8 @@ echo "
 				<th>Engine Volume</th>
 			</tr></thead>
 			<tbody>";
-				$query = "SELECT * FROM customer NATURAL JOIN  service NATURAL JOIN operations NATURAL JOIN car";
+				$curr = $_SESSION['rep_email'];
+				$query = "SELECT * FROM customer NATURAL JOIN  service NATURAL JOIN operations NATURAL JOIN car WHERE done = 0 AND rep_email = '$curr'";
 				$result = mysql_query($query, $conn) or die( mysql_error());
 				while($row = mysql_fetch_array($result)){
 					echo "<tr>";

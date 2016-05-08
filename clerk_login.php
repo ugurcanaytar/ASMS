@@ -40,17 +40,10 @@
 				</p>
 				</fieldset>
 			</form>
-		</div>
-	</div>
 
 
-		<div class='clearfix'></div>
-		<footer>
-			<p>Copyright @ASMS_Group2; CS353 - Spring 2016, Auto Service Management System, All Rights Reserved.</p>
-		</footer>
-</div> <!-- End Grid -->
-</body>
-</html>
+
+
 												
 <?php
 
@@ -59,9 +52,12 @@ $user = "root";
 $pass = "";
 $db = "car";
 
+
 session_start();
-mysql_connect($host,$user,$pass);
-mysql_select_db($db);
+
+$conn = mysql_connect($host,$user,$pass);
+mysql_select_db($db,$conn);
+
 
 if(isset($_POST['employee_id'])) {
 	$employee_id = $_POST['employee_id'];
@@ -69,19 +65,31 @@ if(isset($_POST['employee_id'])) {
 
 	$_SESSION['employee_id'] = $employee_id;
 	$_SESSION['password'] = $password;
+	
 
 	$sql = "SELECT * FROM clerk WHERE employee_id = '".$employee_id."' AND password = '".$password."' LIMIT 1 ";
-	$res = mysql_query($sql);
+	$res = mysql_query($sql,$conn);
+
 	if(mysql_num_rows($res) == 1) {
-		header('Location: clerk_main.php');
+		echo "<div class='notice success'><i class='icon-wrench'></i> Welcome to the system! | <strong> You will direct to the system in a 3 seconds... </strong>
+				<a href='#close' class='icon-remove'></a></div>";
+				header( "refresh:3;url=clerk_main.php" );
 	}
 	else{
-		echo '
-		<div>
-			<center><p class="warning">The user with the given Clerk ID and password does NOT exist in the system!</p></center>
-		</div>
-		';
+		echo "<div class='notice error'><i class='icon-wrench'></i> Your ID or Password is incorrect! Please re-type your information. | <font color = 'red'><strong> You will redirect in a 3 seconds... <strong></font> <a href='#close' class='icon-remove'></a></div>";
+				header( "refresh:3;url=clerk_login.php" );
 	}
 
 }
 ?>
+
+</div>
+</div>
+
+		<div class='clearfix'></div>
+		<footer>
+			<p>Copyright @ASMS_Group2; CS353 - Spring 2016, Auto Service Management System, All Rights Reserved.</p>
+		</footer>
+</div> <!-- End Grid -->
+</body>
+</html>

@@ -40,8 +40,7 @@
 				</p>
 				</fieldset>
 			</form>
-	</div>
-</div>
+	
 
 
 
@@ -79,20 +78,19 @@ if(isset($_POST['customer_id'])) {
 	$_SESSION['c_email'] = $customer['c_email'];
 	
 	if(mysql_num_rows($res) == 1) {
-		header('Location: customer_main.php');
+		echo "<div class='notice success'><i class='icon-wrench'></i> Welcome to the system! | <strong> You will direct to the system in a 3 seconds... </strong>
+				<a href='#close' class='icon-remove'></a></div>";
+				header( "refresh:3;url=customer_main.php" );
 	}
 	else{
-		echo '
-		<div>
-			<center><p class="warning">The user with the given Customer ID and password does NOT exist in the system!</p></center>
-		</div>
-		';
+		echo "<div class='notice error'><i class='icon-wrench'></i> Your ID or Password is incorrect! Please re-type your information. | <font color = 'red'><strong> You will redirect in a 3 seconds... <strong></font> <a href='#close' class='icon-remove'></a></div>";
+				header( "refresh:3;url=customer_login.php" );
 	}
 
 }
 ?>
-
-
+</div>
+</div>
 
 		<div class='clearfix'></div>
 		<footer>

@@ -65,11 +65,20 @@ echo "
 			<legend><i class='icon-user'></i> Representative Profile</legend>
 		<p>
 ";
+			
+
+
 
 			echo "Name: ".$_SESSION['employee_name']."<br>";
 			echo "Expert Level: ".$_SESSION['expert_level']."<br>";
 			echo "Phone Number: ".$_SESSION['phone']."<br>";
 			echo "E-Mail: ".$_SESSION['rep_email']."<br>";
+			$repmail = $_SESSION['rep_email'];
+			$query = "SELECT count(customer_id) as county FROM customer WHERE rep_email = '$repmail' AND enterance BETWEEN '2016-01-01' AND '2016-12-12' GROUP BY 'rep_email' "; 
+			$result = mysql_query($query, $conn) or die( mysql_error());
+			$row = mysql_fetch_array($result);
+			$number = $row['county'];
+			echo "<strong>Number of related customers who enter the system in this year: ".$number."</strong><br>"; // current customers except last year
 echo"			
 		</p>
 		</fieldset>

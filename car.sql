@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Anamakine: 127.0.0.1
--- Üretim Zamanı: 02 May 2016, 11:42:47
+-- Üretim Zamanı: 08 May 2016, 20:25:02
 -- Sunucu sürümü: 10.1.13-MariaDB
 -- PHP Sürümü: 5.6.20
 
@@ -39,12 +39,12 @@ CREATE TABLE `captain` (
 --
 
 INSERT INTO `captain` (`employee_id`, `expert_level`, `cap_email`, `department_id`, `password`) VALUES
-(100, 40, 'bmetin@gmail.com', 500, 12345),
-(101, 42, 'koguz@gmail.com', 501, 12345),
-(102, 29, 'aorhan@gmail.com', 502, 12345),
-(103, 28, 'kocasakal@gmail.com', 503, 12345),
-(104, 36, 'gçelik@gmail.com', 504, 12345),
-(105, 44, 'zülfikar@gmail.com', 500, 12345);
+(200, 34, 'keskin@gmail.com', 400, 12345),
+(201, 45, 'kayra@gmail.com', 401, 12345),
+(202, 28, 'aziz@gmail.com', 402, 12345),
+(203, 32, 'salvar@gmail.com', 403, 12345),
+(204, 32, 'ergen@gmail.com', 404, 12345),
+(205, 36, 'kocasakal@gmail.com', 405, 12345);
 
 -- --------------------------------------------------------
 
@@ -65,15 +65,19 @@ CREATE TABLE `car` (
 --
 
 INSERT INTO `car` (`car_id`, `model`, `release_date`, `engine_volume`, `owner_id`) VALUES
-(1, 'Linea', '2010-08-20', 100, 1),
-(2, 'Fiorino', '2008-06-20', 120, 2),
-(3, 'Doblo', '2010-11-20', 110, 3),
-(4, 'Punto', '2014-12-16', 130, 4),
-(5, 'Bravo', '2015-03-17', 140, 5),
-(6, 'Panda', '2014-09-24', 105, 6),
-(7, 'Linea', '2016-04-03', 100, 1),
-(9, 'Egea', '2016-05-26', 300, 2),
-(10, 'Cruze', '2016-05-19', 100, 1);
+(1, 'Punto', '2016-05-11', 100, 1),
+(2, 'Linea', '2016-05-18', 150, 2),
+(3, '500L', '2016-05-23', 120, 3),
+(4, 'Panda', '2016-04-12', 90, 4),
+(5, 'Fiorino', '2016-03-15', 130, 5),
+(6, 'Ducato', '2016-01-19', 140, 6),
+(7, 'Freemont', '2016-05-23', 125, 7),
+(8, 'Linea', '2016-05-09', 115, 8),
+(9, 'Linea', '2016-05-15', 110, 1),
+(10, '500L', '2016-05-22', 120, 2),
+(11, 'Cruze', '2016-05-13', 124, 7),
+(13, 'Cruze', '2016-05-19', 124, 8),
+(14, 'Fiorino', '2016-05-11', 120, 3);
 
 -- --------------------------------------------------------
 
@@ -87,24 +91,27 @@ CREATE TABLE `clerk` (
   `clerk_email` varchar(20) COLLATE utf8_turkish_ci NOT NULL,
   `ops_id` int(10) NOT NULL,
   `department_id` int(10) NOT NULL,
-  `password` int(20) NOT NULL
+  `password` int(20) NOT NULL,
+  `service_id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 --
 -- Tablo döküm verisi `clerk`
 --
 
-INSERT INTO `clerk` (`employee_id`, `expert_level`, `clerk_email`, `ops_id`, `department_id`, `password`) VALUES
-(1, 7, 'mkirgiz@gmail.com', 10000, 500, 12345),
-(2, 4, 'akobanci@gmail.com', 10001, 501, 12345),
-(3, 9, 'gkocar@gmail.com', 10002, 502, 12345),
-(4, 4, 'karabıyık@gmail.com', 10001, 503, 12345),
-(5, 8, 'hamza@gmail.com', 10002, 504, 12345),
-(6, 5, 'baştürk@gmail.com', 10001, 500, 12345),
-(7, 3, 'barışpala@gmail.com', 10005, 501, 12345),
-(8, 2, 'ahmetçetin@gmail.com', 10004, 502, 12345),
-(9, 1, 'muhammed@gmail.com', 10003, 503, 12345),
-(10, 6, 'mahmut@gmail.com', 10004, 504, 12345);
+INSERT INTO `clerk` (`employee_id`, `expert_level`, `clerk_email`, `ops_id`, `department_id`, `password`, `service_id`) VALUES
+(300, 2, 'caner@gmail.com', 10000, 400, 12345, 0),
+(301, 5, 'fatal@gmail.com', 10000, 401, 12345, 0),
+(302, 3, 'kara@gmail.com', 10000, 402, 12345, 0),
+(303, 9, 'karaman@gmail.com', 10000, 403, 12345, 0),
+(304, 1, 'yeter@gmailc.com', 10000, 404, 12345, 0),
+(305, 9, 'behzat@gmail.com', 10000, 405, 12345, 0),
+(306, 7, 'tekin@gmail.com', 10000, 400, 12345, 0),
+(307, 2, 'canan@gmail.com', 10000, 401, 12345, 0),
+(308, 1, 'kenan@gmail.com', 10000, 402, 12345, 0),
+(309, 3, 'haydar@gmail.com', 10000, 403, 12345, 0),
+(310, 8, 'muezzin@gmail.com', 10000, 404, 12345, 0),
+(311, 9, 'dersu@gmail.com', 10000, 405, 12345, 0);
 
 -- --------------------------------------------------------
 
@@ -119,20 +126,23 @@ CREATE TABLE `customer` (
   `phone_number` varchar(20) COLLATE utf8_turkish_ci NOT NULL,
   `c_email` varchar(20) COLLATE utf8_turkish_ci NOT NULL,
   `password` varchar(20) COLLATE utf8_turkish_ci NOT NULL,
-  `rep_email` varchar(20) COLLATE utf8_turkish_ci NOT NULL
+  `rep_email` varchar(20) COLLATE utf8_turkish_ci NOT NULL,
+  `enterance` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 --
 -- Tablo döküm verisi `customer`
 --
 
-INSERT INTO `customer` (`customer_id`, `name`, `address`, `phone_number`, `c_email`, `password`, `rep_email`) VALUES
-(1, 'Caner Akça', 'Bilkent-2 g-4 01', '05322008543', 'cnr123@gmail.com', '12345', 'iozpolat@gmail.com'),
-(2, 'Mahmut Kaya', 'Bilkent-2 g-4 02', '05325887823', 'mkaya@gmail.com', '12345', 'eozgul@gmail.com'),
-(3, 'Ayşe Kulin', 'Bilkent-2 g-4 03', '05556633995', 'aysekulin@gmail.com', '12345', 'caglasck@gmail.com'),
-(4, 'Mehmet Durmuş', 'Bilkent-2 g-4 04', '05324887236', 'mdurmus@gmail.com', '12345', 'eozgul@gmail.com'),
-(5, 'Pelin Aksu', 'Bilkent-2 g-4 05', '05322884675', 'pelinaksu@gmail.com', '12345', 'caglasck@gmail.com'),
-(6, 'Onur Bıçkın', 'Bilkent-2 g-4 06', '05557638542', 'bıçkın@gmail.com', '12345', 'billur@gmail.com');
+INSERT INTO `customer` (`customer_id`, `name`, `address`, `phone_number`, `c_email`, `password`, `rep_email`, `enterance`) VALUES
+(1, 'Haydar Kesik', 'Bilkent-2 g-4 01', '05432786521', 'haydar@gmail.com', '12345', 'canan@gmail.com', '2016-05-17'),
+(2, 'Cansu Yilan', 'Bilkent-2 g-4 02', '05427642563', 'cansu@gmail.com', '12345', 'selim@gmail.com', '2015-11-18'),
+(3, 'Kayhan Memis', 'Bilkent-2 g-4 03', '05467891243', 'kayhan@gmail.com', '12345', 'hanci@gmail.com', '2016-05-27'),
+(4, 'Fatma Giritli', 'Bilkent-2 g-4 04', '05478913208', 'fatma@gmail.com', '12345', 'nilgun@gmail.com', '2016-05-31'),
+(5, 'Sevgi Tanır', 'Bilkent-2 g-4 05', '05238975327', 'sevgi@gmail.com', '12345', 'sayman@gmail.com', '2016-05-13'),
+(6, 'Fadime Sever', 'Bilkent-2 g-4 06', '05427805423', 'fadime@gmail.com', '12345', 'selim@gmail.com', '2016-07-08'),
+(7, 'Goksu Kanlıdag', 'Bilkent-2 g-4 07', '05346723490', 'goksu@gmail.com', '12345', 'canan@gmail.com', '2015-12-16'),
+(8, 'Arif Usta', 'Bilkent-2 g-4 08', '05328652340', 'arifusta@gmail.com', '12345', 'hanci@gmail.com', '2016-10-27');
 
 -- --------------------------------------------------------
 
@@ -151,11 +161,12 @@ CREATE TABLE `department` (
 --
 
 INSERT INTO `department` (`department_id`, `department_name`, `budget`) VALUES
-(500, 'Dyeing', 100000),
-(501, 'Engine', 250000),
-(502, 'Bodywork', 200000),
-(503, 'Air Conditioning', 220000),
-(504, 'Fuel Injection', 300000);
+(400, 'Engine', 250000),
+(401, 'BodyWork', 380000),
+(402, 'Dyeing', 450000),
+(403, 'Cooling System', 340000),
+(404, 'Electrical Equipment', 490000),
+(405, 'Electronic Control Unit', 560000);
 
 -- --------------------------------------------------------
 
@@ -176,12 +187,14 @@ CREATE TABLE `distributor` (
 --
 
 INSERT INTO `distributor` (`distributor_id`, `distributor_name`, `password`, `distributor_email`, `cap_email`) VALUES
-(1, 'Murat Ayaz', '12345', 'm.ayaz@gmail.com', 'bmetin@gmail.com'),
-(2, 'Mustafa Berberoğlu', '12345', 'mber@gmail.com', 'koguz@gmail.com'),
-(3, 'Enver Durmuş', '12345', 'edurmus@gmail.com', 'aorhan@gmail.com'),
-(4, 'Caglar Alkış', '12345', 'alkış@gmail.com', 'kocasakal@gmail.com'),
-(5, 'Mehmet Kaya', '12345', 'm.kaya@gmail.com', 'gçelik@gmail.com'),
-(6, 'Yıldıray Buğa', '12345', 'yıldıray@gmail.com', 'bmetin@gmail.com');
+(500, 'Cem Yaprak', '12345', 'cem@gmail.com', 'keskin@gmail.com'),
+(501, 'Caglar Germiyen', '12345', 'germiyen@gmail.com', 'ergen@gmail.com'),
+(502, 'Tahri Muezzin', '12345', 'tahri@gmail.com', 'kayra@gmail.com'),
+(503, 'Selda Yasar', '12345', 'selda@gmail.com', 'aziz@gmail.com'),
+(504, 'Yasin Kumral', '12345', 'yasin@gmail.com', 'kocasakal@gmail.com'),
+(505, 'Yigit Kutay', '12345', 'yigit@gmail.com', 'salvar@gmail.com'),
+(506, 'Arif Usta', '12345', 'usta@gmail.com', 'aziz@gmail.com'),
+(507, 'Billur Kalimera', '12345', 'billur@gmail.com', 'ergen@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -200,26 +213,30 @@ CREATE TABLE `employee` (
 --
 
 INSERT INTO `employee` (`employee_id`, `employee_name`, `employee_salary`) VALUES
-(1, 'Mert Kırgız', 1200),
-(2, 'Ali Kobancı', 2145),
-(3, 'Gürol Koçar', 2347),
-(4, 'Huseyin Karabıyık', 1400),
-(5, 'Hamza Bogazlı', 1600),
-(6, 'Onur Baştürk', 2100),
-(7, 'Barış Pala', 2200),
-(8, 'Ahmet Çetin', 1800),
-(9, 'Muhammed Kesir', 1800),
-(10, 'Mahmut Çarıkçı', 2100),
-(100, 'Barbaros Metin', 4800),
-(101, 'Kürşat Oğuz', 5300),
-(102, 'Ahmet Orhan', 5280),
-(103, 'İsmet Kocasakal', 4750),
-(104, 'Gökhan Çelik', 6200),
-(105, 'Zülfikar Gülbitti', 4700),
-(1000, 'Ecem Özgül', 2450),
-(1001, 'İrem Özpolat', 2200),
-(1002, 'Çağla Saçak', 2600),
-(1003, 'Çiğdem Billur', 3150);
+(100, 'Canan Bekci', 2500),
+(101, 'Selim Akin', 2400),
+(102, 'Doruk Cerciler', 2600),
+(103, 'Oguz Sayman', 2000),
+(104, 'Nilgun Ucan', 2100),
+(105, 'Sevim Hanci', 2200),
+(200, 'Fatih Keskin', 4750),
+(201, 'Feyzi Kayra', 4200),
+(202, 'Kerim Aziz', 4400),
+(203, 'Ahmet Salvar', 4600),
+(204, 'Ali Ergin', 4000),
+(205, 'Ismet Kocasakal', 4100),
+(300, 'Caner Kerim', 14000),
+(301, 'Mehmet Fatal', 1600),
+(302, 'Fethi Kara', 1200),
+(303, 'Hikmet Karaman', 1300),
+(304, 'Bora Yeter', 1500),
+(305, 'Behzat Amir', 1350),
+(306, 'Tekin Fahri', 1700),
+(307, 'Canan Ekinci', 1400),
+(308, 'Kenan Muftuoglu', 1650),
+(309, 'Haydar Bickin', 1800),
+(310, 'Muezzin Sayman', 1540),
+(311, 'Dersu Dayanik', 1560);
 
 -- --------------------------------------------------------
 
@@ -231,23 +248,32 @@ CREATE TABLE `operations` (
   `ops_id` int(10) NOT NULL,
   `department_id` int(10) NOT NULL,
   `description` varchar(300) COLLATE utf8_turkish_ci NOT NULL,
-  `start_date` date NOT NULL,
-  `end_date` date NOT NULL
+  `part_type` varchar(20) COLLATE utf8_turkish_ci NOT NULL,
+  `quantity` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 --
 -- Tablo döküm verisi `operations`
 --
 
-INSERT INTO `operations` (`ops_id`, `department_id`, `description`, `start_date`, `end_date`) VALUES
-(300, 501, 'aku bitmis', '2016-05-21', '2016-05-27'),
-(2000, 501, 'sa', '2016-04-29', '2016-05-28'),
-(10001, 501, 'Engine cannot cold down. Detail investigation needed.', '2016-05-10', '2016-05-30'),
-(10001, 502, 'sa', '2016-05-12', '2016-05-13'),
-(10002, 502, 'Left-back bumper cover needed to repair or change.', '2016-06-15', '2016-07-18'),
-(10003, 503, 'Cooling system malfunctioned. Leak test need to be done.', '2015-12-15', '2015-12-23'),
-(10004, 504, 'Spark plug does not work. Rework needed.', '2016-03-16', '2016-03-24'),
-(10005, 502, 'Left-front tampon broken. Need to be changed. ', '2016-01-20', '2016-02-05');
+INSERT INTO `operations` (`ops_id`, `department_id`, `description`, `part_type`, `quantity`) VALUES
+(10001, 400, 'engine can not cold down. It has to be rework.', 'Tire', 3),
+(10003, 402, 'There are scretch on left front bumper. Car needs to paint with metalic blue paint.', 'Sparker', 1),
+(10004, 403, 'Cooling system does not work efficiently. New gas has to added into cooling tank.', 'Cooling Gases', 1),
+(10005, 404, 'GPS screen does not respond. Electrical equipments has to be re-work.', 'V8 Piston', 2),
+(10006, 405, 'Car key does not work because of immobilazer failure. Electronic control unit has to be re-code.', 'Immobiliazer', 1),
+(10007, 400, 'Motor take damage from left side. It does not fucntionally work.', 'Car Key', 2),
+(10008, 401, 'Front mud-guard has to be change since half of it broken.', 'Propelline Nozzle', 1),
+(10009, 402, 'Customer wants to paint his car into metalic purple.', 'Flywheels', 2),
+(10010, 403, 'Cooling tank was punctured and cause to release gases insede it. It has to be fixed.', 'Exhaust System', 1),
+(10011, 404, 'Headlight is not working because of the error in electric equipment. Has to be fixed.', 'Starter System', 1),
+(10012, 405, 'Signals of car does work in the wrong way. Electronic control unit has to be re-work.', 'Fuel Pump', 1),
+(10013, 400, 'Motor oil has to be change.', 'Control System', 1),
+(10014, 401, 'Driver seat take damage because of accident. It has to be repair.', 'Fender', 1),
+(10015, 402, 'Wax polish has to be used on car in order to inclose scratchs.', 'Gear Box', 1),
+(10016, 403, 'heating system has to be rework.', 'Red Paint', 1),
+(10017, 404, 'Radio does not work. It has to be changed.', 'Compressor', 1),
+(10018, 405, 'Cruze control system does not work. Customer wants to fix that problem.', 'Ignitor Timer', 1);
 
 -- --------------------------------------------------------
 
@@ -268,10 +294,12 @@ CREATE TABLE `representative` (
 --
 
 INSERT INTO `representative` (`employee_id`, `rep_email`, `phone`, `expert_level`, `password`) VALUES
-(1000, 'eozgul@gmail.com', '05457658493', 11, 12345),
-(1001, 'iozpolat@gmail.com', '05554653712', 16, 12345),
-(1002, 'caglasck@gmail.com', '05321689400', 21, 12345),
-(1003, 'billur@gmail.com', '05422887163', 17, 12345);
+(100, 'canan@gmail.com', '05554378921', 15, 12345),
+(101, 'selim@gmail.com', '05346782134', 13, 12345),
+(102, 'cerciler@gmail.com', '05219862354', 14, 12345),
+(103, 'sayman@gmail.com', '05429874561', 15, 12345),
+(104, 'nilgun@gmail.com', '05346781253', 17, 12345),
+(105, 'hanci@gmail.com', '05378924572', 20, 12345);
 
 -- --------------------------------------------------------
 
@@ -284,18 +312,39 @@ CREATE TABLE `service` (
   `car_id` int(10) NOT NULL,
   `ops_id` int(10) NOT NULL,
   `department_id` int(10) NOT NULL,
-  `customer_id` int(10) NOT NULL
+  `customer_id` int(10) NOT NULL,
+  `available` int(1) NOT NULL,
+  `demand` int(1) NOT NULL,
+  `done` int(1) NOT NULL,
+  `start_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 --
 -- Tablo döküm verisi `service`
 --
 
-INSERT INTO `service` (`service_id`, `car_id`, `ops_id`, `department_id`, `customer_id`) VALUES
-(2, 1, 10001, 501, 1),
-(3, 4, 10001, 502, 3),
-(4, 9, 2000, 501, 5),
-(5, 10, 300, 501, 1);
+INSERT INTO `service` (`service_id`, `car_id`, `ops_id`, `department_id`, `customer_id`, `available`, `demand`, `done`, `start_date`) VALUES
+(3, 2, 10003, 402, 2, 9, 0, 1, '2016-05-11'),
+(4, 2, 10004, 403, 2, 9, 0, 1, '2016-05-22'),
+(5, 3, 10005, 404, 3, 9, 0, 1, '2016-05-29'),
+(6, 3, 10006, 405, 3, 9, 0, 1, '2016-05-15'),
+(7, 4, 10007, 400, 4, 0, 0, 0, '2016-05-01'),
+(9, 4, 10008, 401, 4, 9, 0, 1, '2016-06-22'),
+(11, 5, 10009, 402, 5, 0, 1, 0, '2016-07-14'),
+(12, 5, 10010, 403, 5, 1, 0, 0, '2016-05-23'),
+(13, 6, 10011, 404, 6, 1, 0, 0, '2016-05-23'),
+(14, 6, 10012, 405, 6, 1, 0, 0, '2016-05-22'),
+(15, 7, 10013, 400, 7, 1, 0, 0, '2016-05-27'),
+(16, 7, 10014, 401, 7, 0, 1, 0, '2016-05-31'),
+(17, 8, 10015, 402, 8, 0, 1, 0, '2016-06-17'),
+(18, 8, 10016, 403, 8, 0, 1, 0, '2016-05-28'),
+(19, 9, 10017, 404, 1, 1, 0, 0, '2016-06-25'),
+(20, 10, 10018, 405, 2, 1, 0, 0, '2016-07-24'),
+(21, 2, 10010, 403, 2, 1, 0, 0, '2016-06-08'),
+(24, 10, 10015, 402, 2, 1, 0, 0, '2016-07-15'),
+(25, 13, 10013, 400, 8, 0, 0, 0, '2016-05-27'),
+(26, 6, 10017, 404, 6, 0, 1, 0, '2016-08-25'),
+(27, 14, 10006, 405, 3, 9, 0, 1, '2016-05-26');
 
 -- --------------------------------------------------------
 
@@ -310,22 +359,39 @@ CREATE TABLE `sparepart` (
   `cost` int(15) NOT NULL,
   `ops_id` int(10) NOT NULL,
   `employee_id` int(10) NOT NULL,
-  `department_id` int(10) NOT NULL
+  `department_id` int(10) NOT NULL,
+  `service_id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 --
 -- Tablo döküm verisi `sparepart`
 --
 
-INSERT INTO `sparepart` (`part_id`, `part_type`, `distributor_id`, `cost`, `ops_id`, `employee_id`, `department_id`) VALUES
-(234, 'v8 piston', 2, 12000, 10001, 100, 501),
-(421, 'carburetor fan', 3, 1400, 10003, 102, 500),
-(456, 'leftback bumper', 4, 1500, 10002, 103, 504),
-(523, 'engine spark-plug', 5, 3400, 10004, 104, 503),
-(546, 'fuel tank', 5, 12000, 10004, 100, 501),
-(10023, 'fuel tank', 2, 12000, 10005, 100, 500),
-(10024, 'engine spark-plug', 6, 3400, 10003, 100, 500),
-(10025, 'leftback bumper', 4, 1500, 10002, 101, 501);
+INSERT INTO `sparepart` (`part_id`, `part_type`, `distributor_id`, `cost`, `ops_id`, `employee_id`, `department_id`, `service_id`) VALUES
+(700, 'Tire', 500, 5000, 10001, 200, 400, 1),
+(703, 'Cooling Gases', 506, 6700, 10004, 203, 403, 4),
+(704, 'V8 Piston', 507, 4500, 10005, 204, 404, 5),
+(705, 'Immobiliazer', 500, 300, 10006, 205, 405, 6),
+(709, 'Car Key', 501, 7000, 10007, 200, 400, 7),
+(710, 'Propelline Nozzle', 502, 2000, 10008, 201, 401, 9),
+(711, 'Flywheels', 503, 3500, 10009, 202, 402, 11),
+(712, 'Exhaust System', 504, 5600, 10010, 203, 403, 12),
+(713, 'Starter System', 505, 4500, 10011, 204, 404, 13),
+(714, 'Fuel Pump', 506, 6000, 10012, 205, 405, 14),
+(715, 'Control System', 507, 7000, 10013, 200, 400, 15),
+(716, 'Fender', 500, 8000, 10014, 201, 401, 16),
+(717, 'Gear Box', 501, 9000, 10015, 202, 402, 17),
+(718, 'Red Paint', 502, 1000, 10016, 203, 403, 18),
+(719, 'Compressor', 503, 2300, 10017, 204, 404, 19),
+(720, 'Ignitor Timer', 504, 2400, 10018, 205, 405, 20),
+(721, 'Sparker', 505, 1200, 10003, 202, 402, 3),
+(723, 'V8 Piston', 506, 4500, 10005, 204, 404, 5),
+(724, 'Car Key', 506, 7000, 10007, 200, 400, 7),
+(725, 'Flywheels', 507, 3500, 10009, 202, 402, 11),
+(738, 'Gear Box', 504, 9000, 10015, 202, 402, 24),
+(748, 'Control System', 504, 7000, 10013, 200, 400, 15),
+(749, 'Compressor', 502, 2300, 10017, 204, 404, 26),
+(756, 'Immobiliazer', 502, 300, 10006, 200, 405, 6);
 
 --
 -- Dökümü yapılmış tablolar için indeksler
@@ -405,7 +471,8 @@ ALTER TABLE `service`
   ADD KEY `car_id` (`car_id`,`ops_id`,`department_id`),
   ADD KEY `ops_id` (`ops_id`),
   ADD KEY `department_id` (`department_id`),
-  ADD KEY `customer_id` (`customer_id`);
+  ADD KEY `customer_id` (`customer_id`),
+  ADD KEY `car_id_2` (`car_id`);
 
 --
 -- Tablo için indeksler `sparepart`
@@ -425,37 +492,37 @@ ALTER TABLE `sparepart`
 -- Tablo için AUTO_INCREMENT değeri `car`
 --
 ALTER TABLE `car`
-  MODIFY `car_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `car_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- Tablo için AUTO_INCREMENT değeri `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customer_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `customer_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- Tablo için AUTO_INCREMENT değeri `department`
 --
 ALTER TABLE `department`
-  MODIFY `department_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=505;
+  MODIFY `department_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=406;
 --
 -- Tablo için AUTO_INCREMENT değeri `distributor`
 --
 ALTER TABLE `distributor`
-  MODIFY `distributor_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `distributor_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=508;
 --
 -- Tablo için AUTO_INCREMENT değeri `operations`
 --
 ALTER TABLE `operations`
-  MODIFY `ops_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10006;
+  MODIFY `ops_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10019;
 --
 -- Tablo için AUTO_INCREMENT değeri `service`
 --
 ALTER TABLE `service`
-  MODIFY `service_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `service_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 --
 -- Tablo için AUTO_INCREMENT değeri `sparepart`
 --
 ALTER TABLE `sparepart`
-  MODIFY `part_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10026;
+  MODIFY `part_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=757;
 --
 -- Dökümü yapılmış tablolar için kısıtlamalar
 --
@@ -519,8 +586,8 @@ ALTER TABLE `service`
 ALTER TABLE `sparepart`
   ADD CONSTRAINT `SparePart_ibfk_1` FOREIGN KEY (`distributor_id`) REFERENCES `distributor` (`distributor_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `SparePart_ibfk_2` FOREIGN KEY (`ops_id`) REFERENCES `operations` (`ops_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `SparePart_ibfk_3` FOREIGN KEY (`employee_id`) REFERENCES `captain` (`employee_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `SparePart_ibfk_4` FOREIGN KEY (`department_id`) REFERENCES `department` (`department_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `SparePart_ibfk_4` FOREIGN KEY (`department_id`) REFERENCES `department` (`department_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `SparePart_ibfk_5` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`employee_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -71,7 +71,7 @@ echo "
 			</tr></thead>
 			<tbody>";
 			$curr = $_SESSION['customer_id'];
-			$query = "SELECT * FROM operations NATURAL JOIN service WHERE customer_id = ".$curr." ";
+			$query = "SELECT * FROM operations NATURAL JOIN service WHERE customer_id = ".$curr." AND done = 0 ";
 				$result = mysql_query($query, $conn) or die( mysql_error());
 				while($row = mysql_fetch_array($result)){
 					echo "<tr>";
@@ -97,29 +97,67 @@ echo "
 
 	";
 	echo"
-			<form action= ".$_SERVER['PHP_SELF']." method='get'>
-				<center>
-				<p>
-					<label for='department_id'>Department ID: </label>
-					<input name='department_id' type='text' required= 'required'/>
-				</p>
-				<p>
-					<label for='ops_id'>Operation ID: </label>
-					<input name='ops_id' type='text' required= 'required'/>
-				</p>
-				<p>
-					<button class='green' name='submit' type='submit'><i class='icon-check'></i> Delete</button>
-				</p>
-				</center>
-			</form>
-			</div>
+			<form class='horizontal' method='get' action=".$_SERVER['PHP_SELF'].">
+			<center>
+
+				<select id = 'state_select' name='operation_select'>
+					<option>Select Operation ID</option>
+			";
+
+				$query = "SELECT * FROM operations NATURAL JOIN service WHERE customer_id = ".$curr." ";
+				$result = mysql_query($query, $conn) or die( mysql_error());
+				while($row = mysql_fetch_array($result)){
+					$operation = $row['ops_id'];
+					echo"<option value =".$operation.">".$operation."</option>";
+				}
+
+				echo "
+				</select> <br><br>
+
+
+
+				<select id = 'state_select' name='department_select'>
+					<option>Select Department ID</option>
+
 				";
-		if(isset($_GET['ops_id']) && isset($_GET['department_id'])){
-			$ops_id = $_GET["ops_id"];
-			$department = $_GET["department_id"];
-			$sql = "DELETE FROM operations WHERE ops_id = '".$ops_id."' AND department_id = '".$department."'  ";
-			$result = mysql_query($sql, $conn); //or die(mysql_error());
-			header('Location: customer_main.php');
+
+				$query = "SELECT * FROM operations NATURAL JOIN service WHERE customer_id = ".$curr." ";
+				$result = mysql_query($query, $conn) or die( mysql_error());
+				while($row = mysql_fetch_array($result)){
+					$dep = $row['department_id'];
+					echo"<option value = ".$dep.">".$dep."</option>";
+				}
+
+				echo var_dump($_GET);
+				echo "
+				</select>  <br><br>
+
+
+
+				<button class = 'green' type='submit'><i class = 'icon-wrench'></i> Delete</button>
+			</center>
+			</form>
+			";
+
+		error_reporting(E_ERROR | E_PARSE);
+		if(isset($_GET['department_select']) && isset($_GET['operation_select'])){
+
+			$ops_id = $_GET['operation_select'];
+			$department = $_GET['department_select'];
+
+			$errorQuery = "SELECT * FROM operations NATURAL JOIN service WHERE customer_id = ".$curr." AND ops_id = ".$ops_id." AND department_id = ".$department."";
+			$errResult = mysql_query($errorQuery, $conn);
+			if(mysql_num_rows($errResult)){
+				$sql = "DELETE FROM service WHERE ops_id = '".$ops_id."' AND department_id = '".$department."'";
+				$result = mysql_query($sql, $conn);
+				echo "<div class='notice success'><i class='icon-wrench'></i> Appointment Deleted! | <strong> You will redirect in a 3 seconds... </strong>
+				<a href='#close' class='icon-remove'></a></div>";
+				header( "refresh:3;url=customer_main.php" );
+			} else {
+				echo "<div class='notice error'><i class='icon-wrench'></i> Appointment Mismatch! Please Select Proper Value. | <font color = 'red'><strong> You will redirect in a 3 seconds... <strong></font> <a href='#close' class='icon-remove'></a></div>";
+				header( "refresh:3;url=customer_main.php" );
+			}
+			
 		}
 echo "
 		</div>
