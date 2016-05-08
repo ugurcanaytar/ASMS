@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Anamakine: 127.0.0.1
--- Üretim Zamanı: 08 May 2016, 20:25:02
+-- Üretim Zamanı: 09 May 2016, 00:08:51
 -- Sunucu sürümü: 10.1.13-MariaDB
 -- PHP Sürümü: 5.6.20
 
@@ -105,7 +105,7 @@ INSERT INTO `clerk` (`employee_id`, `expert_level`, `clerk_email`, `ops_id`, `de
 (302, 3, 'kara@gmail.com', 10000, 402, 12345, 0),
 (303, 9, 'karaman@gmail.com', 10000, 403, 12345, 0),
 (304, 1, 'yeter@gmailc.com', 10000, 404, 12345, 0),
-(305, 9, 'behzat@gmail.com', 10000, 405, 12345, 0),
+(305, 9, 'behzat@gmail.com', 10000, 400, 12345, 0),
 (306, 7, 'tekin@gmail.com', 10000, 400, 12345, 0),
 (307, 2, 'canan@gmail.com', 10000, 401, 12345, 0),
 (308, 1, 'kenan@gmail.com', 10000, 402, 12345, 0),
@@ -143,6 +143,22 @@ INSERT INTO `customer` (`customer_id`, `name`, `address`, `phone_number`, `c_ema
 (6, 'Fadime Sever', 'Bilkent-2 g-4 06', '05427805423', 'fadime@gmail.com', '12345', 'selim@gmail.com', '2016-07-08'),
 (7, 'Goksu Kanlıdag', 'Bilkent-2 g-4 07', '05346723490', 'goksu@gmail.com', '12345', 'canan@gmail.com', '2015-12-16'),
 (8, 'Arif Usta', 'Bilkent-2 g-4 08', '05328652340', 'arifusta@gmail.com', '12345', 'hanci@gmail.com', '2016-10-27');
+
+-- --------------------------------------------------------
+
+--
+-- Görünüm yapısı durumu `customer_info`
+--
+CREATE TABLE `customer_info` (
+`customer_id` int(10)
+,`name` varchar(30)
+,`address` varchar(60)
+,`phone_number` varchar(20)
+,`c_email` varchar(20)
+,`password` varchar(20)
+,`rep_email` varchar(20)
+,`enterance` date
+);
 
 -- --------------------------------------------------------
 
@@ -258,7 +274,7 @@ CREATE TABLE `operations` (
 
 INSERT INTO `operations` (`ops_id`, `department_id`, `description`, `part_type`, `quantity`) VALUES
 (10001, 400, 'engine can not cold down. It has to be rework.', 'Tire', 3),
-(10003, 402, 'There are scretch on left front bumper. Car needs to paint with metalic blue paint.', 'Sparker', 1),
+(10003, 402, 'There are scretch on left front bumper. Car needs to paint with metalic blue paint.', 'Sparker', 2),
 (10004, 403, 'Cooling system does not work efficiently. New gas has to added into cooling tank.', 'Cooling Gases', 1),
 (10005, 404, 'GPS screen does not respond. Electrical equipments has to be re-work.', 'V8 Piston', 2),
 (10006, 405, 'Car key does not work because of immobilazer failure. Electronic control unit has to be re-code.', 'Immobiliazer', 1),
@@ -268,7 +284,7 @@ INSERT INTO `operations` (`ops_id`, `department_id`, `description`, `part_type`,
 (10010, 403, 'Cooling tank was punctured and cause to release gases insede it. It has to be fixed.', 'Exhaust System', 1),
 (10011, 404, 'Headlight is not working because of the error in electric equipment. Has to be fixed.', 'Starter System', 1),
 (10012, 405, 'Signals of car does work in the wrong way. Electronic control unit has to be re-work.', 'Fuel Pump', 1),
-(10013, 400, 'Motor oil has to be change.', 'Control System', 1),
+(10013, 400, 'Motor oil has to be change.', 'Control System', 10),
 (10014, 401, 'Driver seat take damage because of accident. It has to be repair.', 'Fender', 1),
 (10015, 402, 'Wax polish has to be used on car in order to inclose scratchs.', 'Gear Box', 1),
 (10016, 403, 'heating system has to be rework.', 'Red Paint', 1),
@@ -332,7 +348,7 @@ INSERT INTO `service` (`service_id`, `car_id`, `ops_id`, `department_id`, `custo
 (9, 4, 10008, 401, 4, 9, 0, 1, '2016-06-22'),
 (11, 5, 10009, 402, 5, 0, 1, 0, '2016-07-14'),
 (12, 5, 10010, 403, 5, 1, 0, 0, '2016-05-23'),
-(13, 6, 10011, 404, 6, 1, 0, 0, '2016-05-23'),
+(13, 6, 10011, 404, 6, 0, 0, 0, '2016-05-23'),
 (14, 6, 10012, 405, 6, 1, 0, 0, '2016-05-22'),
 (15, 7, 10013, 400, 7, 1, 0, 0, '2016-05-27'),
 (16, 7, 10014, 401, 7, 0, 1, 0, '2016-05-31'),
@@ -342,7 +358,7 @@ INSERT INTO `service` (`service_id`, `car_id`, `ops_id`, `department_id`, `custo
 (20, 10, 10018, 405, 2, 1, 0, 0, '2016-07-24'),
 (21, 2, 10010, 403, 2, 1, 0, 0, '2016-06-08'),
 (24, 10, 10015, 402, 2, 1, 0, 0, '2016-07-15'),
-(25, 13, 10013, 400, 8, 0, 0, 0, '2016-05-27'),
+(25, 13, 10013, 400, 8, 9, 0, 1, '2016-05-27'),
 (26, 6, 10017, 404, 6, 0, 1, 0, '2016-08-25'),
 (27, 14, 10006, 405, 3, 9, 0, 1, '2016-05-26');
 
@@ -391,7 +407,26 @@ INSERT INTO `sparepart` (`part_id`, `part_type`, `distributor_id`, `cost`, `ops_
 (738, 'Gear Box', 504, 9000, 10015, 202, 402, 24),
 (748, 'Control System', 504, 7000, 10013, 200, 400, 15),
 (749, 'Compressor', 502, 2300, 10017, 204, 404, 26),
-(756, 'Immobiliazer', 502, 300, 10006, 200, 405, 6);
+(758, 'Immobiliazer', 504, 300, 10006, 200, 405, 6),
+(790, 'Control System', 504, 7000, 10013, 200, 400, 25),
+(791, 'Control System', 504, 7000, 10013, 200, 400, 25),
+(792, 'Control System', 504, 7000, 10013, 200, 400, 25),
+(793, 'Control System', 504, 7000, 10013, 200, 400, 25),
+(794, 'Control System', 504, 7000, 10013, 200, 400, 25),
+(795, 'Control System', 504, 7000, 10013, 200, 400, 25),
+(796, 'Control System', 504, 7000, 10013, 200, 400, 25),
+(797, 'Control System', 504, 7000, 10013, 200, 400, 25),
+(798, 'Control System', 504, 7000, 10013, 200, 400, 25),
+(799, 'Control System', 504, 7000, 10013, 200, 400, 25);
+
+-- --------------------------------------------------------
+
+--
+-- Görünüm yapısı `customer_info`
+--
+DROP TABLE IF EXISTS `customer_info`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `customer_info`  AS  select `customer`.`customer_id` AS `customer_id`,`customer`.`name` AS `name`,`customer`.`address` AS `address`,`customer`.`phone_number` AS `phone_number`,`customer`.`c_email` AS `c_email`,`customer`.`password` AS `password`,`customer`.`rep_email` AS `rep_email`,`customer`.`enterance` AS `enterance` from `customer` WITH CASCADED CHECK OPTION ;
 
 --
 -- Dökümü yapılmış tablolar için indeksler
@@ -522,7 +557,7 @@ ALTER TABLE `service`
 -- Tablo için AUTO_INCREMENT değeri `sparepart`
 --
 ALTER TABLE `sparepart`
-  MODIFY `part_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=757;
+  MODIFY `part_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=800;
 --
 -- Dökümü yapılmış tablolar için kısıtlamalar
 --
