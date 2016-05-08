@@ -134,7 +134,7 @@ echo "
 
 
 
-				<button class = 'green' type='submit'><i class = 'icon-wrench'></i> Delete</button>
+				<button class = 'green' type='submit'><i class = 'icon-wrench'></i> Cancel!</button>
 			</center>
 			</form>
 			";

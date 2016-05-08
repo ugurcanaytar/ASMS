@@ -60,12 +60,25 @@ echo"
 			<legend>Customer Profile</legend>
 			<form action=" .$_SERVER['PHP_SELF']." method='post'>
 		<p>
-";
-			echo "Name: ".$_SESSION['name']."<br>";
-			echo "ID: ".$_SESSION['customer_id']."<br>";
-			echo "Address: ".$_SESSION['address']."<br>";
-			echo "Phone Number:".$_SESSION['phone_number']."<br>";
-			echo "E-Mail: ".$_SESSION['c_email']."<br>";
+";			
+
+			$curr = $_SESSION['customer_id'];
+			$query2 = "SELECT * FROM customer_info WHERE customer_id = ".$curr."";
+			$result2 = mysql_query($query2, $conn) or die( mysql_error());
+			while($row = mysql_fetch_array($result2)){
+					echo "<p>";
+					$c_id = $row['customer_id'];
+					$name = $row['name'];
+					$address = $row['address'];
+					$c_email = $row['c_email'];
+					$p_n = $row['phone_number'];
+					echo"Name: ".$name."<br>";
+					echo"Customer ID: ".$c_id."<br>";
+					echo"Address: ".$address."<br>";
+					echo"Phone Number: ".$p_n."<br>";
+					echo"Customer Email:".$c_email."<br>";
+					echo "</p>";
+				}
 echo "
 		</p>
 		</fieldset>

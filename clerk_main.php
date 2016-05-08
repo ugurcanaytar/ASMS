@@ -114,7 +114,7 @@ echo "
 				}
 echo"				
 			</select>  <br><br>
-			<center><button class = 'green' method = 'get' type='submit'><i class = 'icon-wrench'></i> Finish</button></center>";
+			<center><button class = 'green' method = 'get' type='submit'><i class = 'icon-wrench'></i> Finish!</button></center>";
 
 			error_reporting(E_ERROR | E_PARSE);
 

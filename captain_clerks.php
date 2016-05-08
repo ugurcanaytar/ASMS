@@ -160,7 +160,7 @@ echo "
 
 
 				</select> <br><br>	
-				<button class = 'green' type='submit'><i class = 'icon-check'></i> Update</button>
+				<button class = 'green' type='submit'><i class = 'icon-check'></i> Assign!</button>
 				</form></center>
 			</form>
 			";

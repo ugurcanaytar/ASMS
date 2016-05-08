@@ -108,7 +108,7 @@ echo "
 				echo "
 				</select> <br><br>
 
-				<button class = 'green' type='submit'><i class = 'icon-wrench'></i> Delete</button>
+				<button class = 'green' type='submit'><i class = 'icon-wrench'></i> Demand!</button>
 				</center>
 				</form>
 				</div>

@@ -157,7 +157,7 @@ echo"
 				</select> <br><br>
 
 				
-				<button class = 'green' type='submit'><i class = 'icon-check'></i> Update</button>
+				<button class = 'green' type='submit'><i class = 'icon-check'></i> Request!</button>
 				</form></center>
 			</form>
 			";
